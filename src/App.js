@@ -2,11 +2,15 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
+import {config} from './constants'
+
+const API_URL = config.url.API_URL;
+
 function App() {
   const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
-    fetch("/api/movie")
+    fetch(API_URL + "/movie")
       .then((res) => res.json())
       .then((data) => setData(data));
   }, []);
