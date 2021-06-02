@@ -8,9 +8,24 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
+  #App-logo {
     animation: App-logo-spin infinite 0.5s linear;
   }
+
+  #movie-poster{
+    animation: none;
+    max-height: 500px;
+  }
+}
+
+#movie-title{
+  height: 2rem;
+  font-size: 200%;
+}
+
+#fullplot{
+  max-width: 600px;
+  font-size: 50%;
 }
 
 .App-header {
