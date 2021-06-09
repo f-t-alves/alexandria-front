@@ -1,18 +1,17 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { useState } from "react";
 
-import { findMovie } from "../static/home";
+import { useMovies } from "../hooks/useMovies";
+
 import MovieCard from "../components/movieCard";
+import Dropdown from "../components/Dropdown";
+
+
 
 function Home({ genres }) {
-  const [movies, setMovies] = useState([]);
-
-  function handleSearch() {
-    findMovie()
-    .then((res) => setMovies(res));
-  }
+  
+  const [movies, handleSearch]  = useMovies();
 
   return (
     <div className={styles.container}>
@@ -31,17 +30,8 @@ function Home({ genres }) {
           Get started by editing{" "}
           <code className={styles.code}>pages/index.js</code>
         </p>
-        <div className={styles.select}>
-          <select name="Genres" id="genres_dropdown" defaultValue="">
-            <option value="" disabled>
-              Genre
-            </option>
-            {genres.map((genre, i) => (
-              <option key={i} value={genre}>
-                {i}: {genre}
-              </option>
-            ))}
-          </select>
+        <div className={styles.selectarea}>
+          <Dropdown props={{name:"Genres", id:"genres-dropdown", defaultValue:"", values: genres}}/>
           <p>What will you watch today?</p>
           <button id="search" onClick={handleSearch}>
             Search
