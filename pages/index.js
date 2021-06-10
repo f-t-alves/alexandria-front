@@ -2,16 +2,27 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
-import { useMovies } from "../hooks/useMovies";
+import { useState } from "react";
+import { findMovie } from "../public/home.js";
 
-import MovieCard from "../components/movieCard";
+import { useGenre } from "../hooks/useGenre.js";
+
+import MovieCard from "../components/MovieCard";
 import Dropdown from "../components/Dropdown";
 
 
 
 function Home({ genres }) {
+
+  console.log(process.env.NODE_ENV);
+  console.log(process.env.NEXT_PUBLIC_API_PATH);
   
-  const [movies, handleSearch]  = useMovies();
+  const [genre, handleGenre] = useGenre();
+  const [movies, setMovies]  = useState([]);
+
+  function handleSearch() {
+    findMovie(genre).then((res) => setMovies(res));
+  }
 
   return (
     <div className={styles.container}>
@@ -31,7 +42,7 @@ function Home({ genres }) {
           <code className={styles.code}>pages/index.js</code>
         </p>
         <div className={styles.selectarea}>
-          <Dropdown props={{name:"Genres", id:"genres-dropdown", defaultValue:"", values: genres}}/>
+          <Dropdown name="Genres" id="genres-dropdown" defaultValue="" values={genres} onChange={handleGenre}/>
           <p>What will you watch today?</p>
           <button id="search" onClick={handleSearch}>
             Search
@@ -63,7 +74,7 @@ function Home({ genres }) {
 }
 
 export async function getStaticProps() {
-  const res = await fetch("http://localhost:3000/api/genres");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_PATH}/genres`);
   const genres = await res.json();
 
   console.log(genres);

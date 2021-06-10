@@ -1,12 +1,12 @@
 import styles from "../styles/Dropdown.module.css"
 
-export default function Dropdown({props}) {
+export default function Dropdown({values, ...props}) {
   return (
-    <select className={styles.select} name={props.name} id={props.id} defaultValue={props.defaultValue}>
+    <select className={styles.select} {...props}>
       <option value="" disabled>
         {props.name}
       </option>
-      {props.values.map((value, i) => (
+      {values.map((value, i) => (
         <option key={i} value={value}>
           {i}: {value}
         </option>
