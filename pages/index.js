@@ -3,12 +3,11 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
 import { useState } from "react";
-import { findMovie } from "../public/home.js";
 
 import { useGenre } from "../hooks/useGenre.js";
 
-import MovieCard from "../components/MovieCard";
-import Dropdown from "../components/Dropdown";
+import MovieCards from "../components/MovieCards";
+import GenrePicker from "../components/GenrePicker";
 
 
 
@@ -19,10 +18,6 @@ function Home({ genres }) {
   
   const [genre, handleGenre] = useGenre();
   const [movies, setMovies]  = useState([]);
-
-  function handleSearch() {
-    findMovie(genre).then((res) => setMovies(res));
-  }
 
   return (
     <div className={styles.container}>
@@ -41,21 +36,10 @@ function Home({ genres }) {
           Get started by editing{" "}
           <code className={styles.code}>pages/index.js</code>
         </p>
-        <div className={styles.selectarea}>
-          <Dropdown name="Genres" id="genres-dropdown" defaultValue="" values={genres} onChange={handleGenre}/>
-          <p>What will you watch today?</p>
-          <button id="search" onClick={handleSearch}>
-            Search
-          </button>
-        </div>
-
-        <div id="movie-cards" className={styles.grid}>
-          {movies.map((movie, i) => {
-            return (
-              <MovieCard movie={movie} key={i}/>
-            );
-          })}
-        </div>
+        
+        <GenrePicker chosenGenre={genre} genres={genres} handleGenre={handleGenre} setState={setMovies}/>
+        
+        <MovieCards movies={movies} />
       </main>
 
       <footer className={styles.footer}>
